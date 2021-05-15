@@ -1,0 +1,12 @@
+- name: Network Getting Start
+  connection: network_cli
+  gather_facts: false
+  hosts: SW1
+  tasks:
+  - name: Gather listed vlans with provided configurations
+    cisco.ios.ios_vlans:
+      state: gathered
+    register: gathered
+  - name: display the config
+    debug:
+      var: gathered

@@ -1,0 +1,11 @@
+- name: Network Getting Start
+  connection: network_cli
+  gather_facts: false
+  hosts: all
+  tasks:
+  - name: get config on IOS devices
+    ios_facts:
+      gather_subset: all
+  - name: display the config
+    debug:
+      msg: "{{ ansible_facts }}"
