@@ -1,6 +1,5 @@
-Assignment of NPA Class, Class of 2020, This Project is called NettySight
-
 # NettySight - A Web-Based Network Reporter Tool
+Assignment of NPA Class, Class of 2020
 
 ## <em>Background</em>
 In recent years, network infrastructure has rapidly changed, Many firms and businesses have repositioned themselves to recent, bare, manageable, and modern networking infrastructure. By changing their old physical systems to a new one.
