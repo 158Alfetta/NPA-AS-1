@@ -11,7 +11,7 @@ Log of old device is important for migration network system, site engineer use l
 - Automatically collect log from all registered devices.
 - Beautified and display formatted configuration of registered devices.
 - Engineers can export .xlsx files (ex. Associate interface in L2 devices for using in mapping VLAN for migration process) via web application.
-- Use NETCONF or Ansible for the ability to work with existing network devices.
+- Use Ansible for the ability to work with existing network devices.
 
 ## <em>Our Goal</em>
 - To decrease user error in the migration process, some configuration of the old system may be missing from open configuration data in .txt files
