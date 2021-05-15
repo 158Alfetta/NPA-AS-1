@@ -3,7 +3,7 @@ Assignment of NPA Class, Class of 2020
 
 ## <em>Background</em>
 In recent years, network infrastructure has rapidly changed, Many firms and businesses have repositioned themselves to recent, bare, manageable, and modern networking infrastructure. By changing their old physical systems to a new one.
-Processes of migration systems have broken down a lot of pressure on a site engineer because a working system (old one) has operated fine for one year, five years or a decade. Site engineers must be careful in every step their take.
+Processes of migration systems have broken down a lot of pressure on a site engineer because a working system (old one) has working perfectly for a decade. Site engineers must be careful in every step their take.
 Log of old device is important for migration network system, site engineer use log to compare and convert existing network to new device (from a centralized configuration)
 
 ## <em>Functions</em>
