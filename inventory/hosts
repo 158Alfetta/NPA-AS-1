@@ -5,8 +5,9 @@ ansible_become_method=enable
 [Switch]
 
 SW1 ansible_host=10.0.15.186 ansible_network_os=ios ansible_user=admin ansible_ssh_pass=cisco
+SW2 ansible_host=10.0.15.187 ansible_network_os=ios ansible_user=admin ansible_ssh_pass=cisco
 
-[Router3745]
+# [Router3745]
 
-R1 ansible_host=10.0.15.185 ansible_network_os=ios ansible_user=admin ansible_ssh_pass=cisco
+# R1 ansible_host=10.0.15.185 ansible_network_os=ios ansible_user=admin ansible_ssh_pass=cisco
 
