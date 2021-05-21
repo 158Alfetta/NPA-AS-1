@@ -1,11 +1,10 @@
 import json
 from mongoengine import connect,Document, ListField, StringField, URLField,EmbeddedDocument,EmbeddedDocumentListField
-with open('output.txt') as json_file:
-    data = json.load(json_file)
+# with open('output.txt') as json_file:
+#     data = json.load(json_file)
 # print(data["gathered"])
-print(json.dumps(data["gathered"]["gathered"], indent=4, sort_keys=True))
-connect(db="nettysight", host="localhost", port=27017)
-
+# print(json.dumps(data["gathered"]["gathered"], indent=4, sort_keys=True))
+con = connect(db="nettysight", host="localhost", port=27017)
 class Interface (EmbeddedDocument):
     ip_address  = StringField()
     name = StringField()
@@ -35,29 +34,21 @@ config = Config(
     {"ip_address":"b","name":"as","vlan":"1","oper_status":"asd"}],
 )
 device = Device(
-    username = "test",
-    password = "test",
-    ip_address = "1.1.1.1",
+    username = "testasd",
+    password = "testasd",
+    ip_address = "1.1.1.13",
     device_type = "cisco"
 )
-group = Group(
-    name = "test",
-    devices = [{"device_id":"tes1"},{"device_id":"test2"}]
-)
-print(config.save())
-print(device.save())
-print(group.save())
+# group = Group(
+#     name = "test",
+#     devices = [{"device_id":"tes1"},{"device_id":"test2"}]
+# )
+# print(config.save())
+# print(device.save())
+# print(group.save())
 
-'''
-device
-+username
-+password
-+ip_address
-+device_type'''
-'''
-group
-+ name
-+ devices
-device_id
-
-'''
+# dbs=con.list_database_names()
+# for db in dbs:
+#     print(db)
+for config in Device.objects:
+    print(config.ip_address)
