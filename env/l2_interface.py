@@ -1,6 +1,6 @@
 from pprint import pprint
 import ansible_runner
-runner = ansible_runner.interface.run(private_data_dir="../inventory", playbook="../project/collect_interfaces.yml", inventory="../inventory/hosts")
+runner = ansible_runner.interface.run(private_data_dir="../inventory", playbook="../project/collect_l2_interfaces.yml", inventory="../inventory/hosts")
 
 event = runner.events
 for data in event:

@@ -1,0 +1,12 @@
+- name: Network Getting Start
+  connection: network_cli
+  gather_facts: false
+  hosts: all
+  tasks:
+  - name: Gather the information of L3 interfaces
+    cisco.ios.ios_l3_interfaces:
+      state: gathered
+    register: gathered
+  - name: display the config
+    debug:
+      var: gathered

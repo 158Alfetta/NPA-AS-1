@@ -1,9 +1,9 @@
 - name: Network Getting Start
   connection: network_cli
   gather_facts: false
-  hosts: all
+  hosts: Switch
   tasks:
-  - name: Gather listed vlans with provided configurations
+  - name: Gather interface name, mode, and vlan that interface was assigned
     cisco.ios.ios_l2_interfaces:
       state: gathered
     register: gathered
