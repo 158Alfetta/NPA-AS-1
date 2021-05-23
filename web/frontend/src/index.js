@@ -1,12 +1,23 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { BrowserRouter } from 'react-router-dom'
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <BrowserRouter>
+      <Suspense
+          fallback={
+            <div >
+              <h1>Hold your breath and count to ten.</h1>
+            </div>
+          }
+        >
+      <App />
+      </Suspense>
+    </BrowserRouter>
   </React.StrictMode>,
   document.getElementById('root')
 );

@@ -4,7 +4,7 @@ import { composeWithMongoose, composeWithMongooseDiscriminators } from 'graphql-
 const { Schema } = mongoose
 
 const groupSchema = new Schema({
-    name: {type: String, required:true}
+    name: {type: String, required:true},
 })
 
 export const groupModel = mongoose.model('Group', groupSchema)
