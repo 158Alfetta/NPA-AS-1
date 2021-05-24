@@ -1,5 +1,5 @@
 import "./home.css";
-import "./agency.min.css";
+import "./home2.css";
 
 const Home = () => {
   return (
@@ -8,18 +8,16 @@ const Home = () => {
 
         <header className="masthead">
           <div className="container">
-            <img></img>
             <div className="intro-text">
               <div className="intro-heading text-uppercase">
                 NettySight
               </div>
               <div className="intro-lead-in">Manage your configuration data at once</div>
-              <a
+              <div
                 className="btn btn-primary btn-xl text-uppercase js-scroll-trigger"
-                href="#services"
               >
-                Tell Me More
-              </a>
+                Explore
+              </div>
             </div>
           </div>
         </header>
