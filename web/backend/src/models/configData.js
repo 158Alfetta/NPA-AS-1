@@ -7,7 +7,7 @@ const interfaceSchema = new Schema({
     name: {type: String},
     ip_address: {type: String},
     vlan: {type: String},
-    enable: {type: String},
+    enabled: {type: String},
   })
 
 const configDataSchema = new Schema({
