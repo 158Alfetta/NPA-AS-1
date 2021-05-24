@@ -1,0 +1,55 @@
+body, html{
+    height: 100%;
+}
+
+.device-plane{
+    width: 80vw;
+    margin: auto;
+    height: auto;
+    background-color: rgb(229, 239, 248);
+    margin-top: 90px;
+    margin-bottom: 44px;
+    box-shadow: 2px 5px 5px 2px #888888;
+    border-radius: 12px;
+    padding-bottom: 2%;
+}
+
+.device2{
+    width: 90%;
+    background-color: hotpink;
+    height: 100%;
+    margin: auto;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.groupCard{
+    background-color: khaki;
+    margin-bottom: 2%;
+}
+
+.groupDisplayCard{
+    width: 100%;
+    background-color: greenyellow;
+    height: auto;
+    padding: 1%;
+    margin-bottom: 1%;
+    display: flex;
+}
+
+.deviceCard{
+    width: 100%;
+    margin: auto;
+}
+
+.groupName{
+    text-align: left;
+    font-weight: 800;
+    font-size: 1.4rem
+}
+
+.groupDesc{
+    text-align: right;
+    font-weight: 400;
+    font-size: 0.9rem
+}

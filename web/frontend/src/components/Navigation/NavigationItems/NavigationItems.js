@@ -16,7 +16,7 @@ const NavigationItems = (props) => {
       <NavigationItem link="/devices" clickedFromNav={props.cliked} exact>
         Devices
       </NavigationItem>
-      <NavigationItem link="/branches" clickedFromNav={props.cliked} exact>
+      <NavigationItem link="/manage_groups" clickedFromNav={props.cliked} exact>
         Manage Group
       </NavigationItem>
     </ul>

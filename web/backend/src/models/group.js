@@ -5,6 +5,7 @@ const { Schema } = mongoose
 
 const groupSchema = new Schema({
     name: {type: String, required:true},
+    group_desc: {type: String},
 })
 
 export const groupModel = mongoose.model('Group', groupSchema)
