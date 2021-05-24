@@ -26,10 +26,6 @@ const Devices = () => {
                                 <Card.Body>
                                     <Card.Title>Router: IP Address</Card.Title>
                                     <Card.Subtitle className="mb-2 text-muted">Hostname</Card.Subtitle>
-                                    <Card.Text>
-                                    Some quick example text to build on the card title and make up the bulk of
-                                    the card's content.
-                                    </Card.Text>
                                     <Card.Link href="#">View Detail</Card.Link>
                                     <Card.Link href="#">Download VLAN Config</Card.Link>
                                 </Card.Body>
