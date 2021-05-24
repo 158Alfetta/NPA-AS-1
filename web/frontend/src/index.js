@@ -10,8 +10,8 @@ ReactDOM.render(
     <BrowserRouter>
       <Suspense
           fallback={
-            <div >
-              <h1>Hold your breath and count to ten.</h1>
+            <div>
+              <h1>Hold your breathe and count to ten.</h1>
             </div>
           }
         >
