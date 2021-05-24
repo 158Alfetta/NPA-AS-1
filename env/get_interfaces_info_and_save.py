@@ -8,7 +8,7 @@ class Interface (EmbeddedDocument):
     ip_address  = StringField()
     name = StringField()
     vlan = StringField()
-    oper_status = StringField()
+    enabled = StringField()
 
 class Config(Document):
      hostname = StringField(required=True)
@@ -30,7 +30,7 @@ def run_playbook():
                 interfaces_list = []
                 for item in interfaces:
                     interface_name = item["name"]
-                    interface_dict = {"ip_address":"-","name":interface_name,"vlan":1,"oper_status":"-"}
+                    interface_dict = {"ip_address":"-","name":interface_name,"vlan":1,"enabled":"-"}
                     if interface_name not in interfaces_data[hostName]:
                         interfaces_data[hostName][interface_name] = item
                     else:
@@ -43,13 +43,13 @@ def run_playbook():
         print(data)
         interfaces_list = []
         for inf in interfaces_data[data]:
-            interface_dict = {"ip_address":"-","name":inf,"vlan":"1","oper_status":"-"}
+            interface_dict = {"ip_address":"-","name":inf,"vlan":"1","enabled":"-"}
             if "ipv4" in  interfaces_data[data][inf]:
                 interface_dict["ip_address"] = interfaces_data[data][inf]["ipv4"][0]["address"].split()[0]
             if interfaces_data[data][inf]["enabled"]:
-                interface_dict["oper_status"] = "up"
+                interface_dict["enabled"] = "up"
             else:
-                interface_dict["oper_status"] = "down"
+                interface_dict["enabled"] = "down"
             if "access" in interfaces_data[data][inf]:
                 interface_dict["vlan"] = str(interfaces_data[data][inf]["access"]["vlan"])
             elif "trunk" in interfaces_data[data][inf]:
