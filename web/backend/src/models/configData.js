@@ -12,13 +12,13 @@ const interfaceSchema = new Schema({
 
 const configDataSchema = new Schema({
     hostname: {type: String},
-    interfaces: {type: [interfaceSchema]},
+    interfaces: {type: [ interfaceSchema ]},
 })
 
 export const configDataModel = mongoose.model('configData', configDataSchema)
 export const configDataTC = composeWithMongoose(configDataModel)
 
-export const interfacesModel = mongoose.model('interfaces', interfacesSchema)
+export const interfacesModel = mongoose.model('interfaces', interfaceSchema)
 export const interfacesTC = composeWithMongoose(interfacesModel)
 
 export default configDataModel
