@@ -19,7 +19,7 @@ const Devices = () => {
 
                     <div className="groupCard">
                         <Card>
-                            <Card.Body className="groupName">Group Name <span className="groupDesc">descitpntion</span></Card.Body>
+                            <Card.Body className="groupName">Group Name <span className="groupDesc">description</span></Card.Body>
                         </Card>
                         <section className="groupDisplayCard grid grid-col-3">
                             <Card className="deviceCard">
@@ -27,7 +27,6 @@ const Devices = () => {
                                     <Card.Title>Router: IP Address</Card.Title>
                                     <Card.Subtitle className="mb-2 text-muted">Hostname</Card.Subtitle>
                                     <Card.Link href="#">View Detail</Card.Link>
-                                    <Card.Link href="#">Download VLAN Config</Card.Link>
                                 </Card.Body>
                             </Card>
                         </section>

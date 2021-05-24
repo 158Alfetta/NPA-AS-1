@@ -11,12 +11,16 @@ const DeviceDetail = () => {
         <Card>
           <Card.Header as="h4">Device Detail</Card.Header>
           <Card.Body>
-            <Card.Title>Hostname</Card.Title>
+            <Card.Title>Hostname </Card.Title>
             <Card.Text>
               <Row>
                 <Col>Device Type: </Col>
                 <Col>Group: </Col>
                 <Col>IP Address: </Col>
+                <Col></Col>
+              </Row>
+              <Row>
+                <Col><Card.Link href="#">Download VLAN Config</Card.Link></Col>
               </Row>
             </Card.Text>
             <Card.Footer

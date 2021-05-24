@@ -1,7 +1,29 @@
 import "./managegroups.css";
 import { Card, Button, ListGroup, Form } from "react-bootstrap";
+import {useState} from 'react'
 
 const ManageGroups = () => {
+
+  const [groupData, setGroupData] = useState(
+    {'name': '', 'desc': ''}
+  )
+
+  function handleSubmit(event) {
+    event.preventDefault()
+    console.log(groupData)
+  }
+
+  function handleChangeName(event) {
+    event.preventDefault()
+    setGroupData({...groupData, name: event.target.value})
+  }
+
+  function handleChangeDesc(event) {
+    event.preventDefault()
+    setGroupData({...groupData, desc: event.target.value})
+  }
+
+
   return (
     <>
       <div className="mgnGroup-plane">
@@ -9,12 +31,12 @@ const ManageGroups = () => {
           Register Group
         </Card>
         <section className="regisGroup">
-          <Form>
+          <Form onSubmit={handleSubmit}>
             <Form.Group>
               <Form.Label><b>Name</b></Form.Label>
-              <Form.Control type="text" placeholder='"BRANCH 754, SOI SUKUMVIT 50"' />
+              <Form.Control type="name" placeholder='"BRANCH 754, SOI SUKUMVIT 50"' onChange={handleChangeName} value={groupData.name}/>
               <Form.Label><b>Description</b></Form.Label>
-              <Form.Control type="text" placeholder='"This branch including with 3 routers and 2 switches, both are cisco 2901"' />
+              <Form.Control type="desc" value={groupData.desc} onChange={handleChangeDesc} placeholder='"This branch including with 3 routers and 2 switches, both are cisco 2901"' />
             </Form.Group>
             <Button variant="primary" type="submit" >
               Create Group
