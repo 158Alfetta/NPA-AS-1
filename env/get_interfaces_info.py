@@ -1,6 +1,48 @@
 from pprint import pprint
 import ansible_runner
 from collections import defaultdict
+from mongoengine import connect,Document, StringField
+from secret import *
+import time
+
+
+con = connect(db=db_name, host=db_host, port=db_port, username=db_username, password=db_password, authentication_source=authentication_source)
+class Devices(Document):
+    username = StringField()
+    password = StringField()
+    ip_address = StringField()
+    type = StringField()
+    meta = {'strict': False}
+
+def update_inventory():
+    hosts_inventory = "../inventory/hosts"
+
+    for config in Devices.objects:
+        device_ip = config.ip_address
+        device_username = config.username
+        device_password = config.password
+        device_type = "[{}]".format(config.type)
+        nameDict = {"[Switch]" : "SW", "[Router]" : "R"}
+
+        with open(hosts_inventory, "r") as hostfile:
+            data = hostfile.read()
+            if device_ip not in data:
+                data = list(filter(lambda x: x != "", data.split("\n")))
+                invert = {"[Switch]" : "[Router]", "[Router]" : data[-1]}
+                typeIndex = data.index(device_type)
+                invertIndex = data.index(invert[device_type])
+                distance = max(typeIndex, invertIndex) - min(typeIndex, invertIndex) + (device_type == "[Router]")
+                name = nameDict[device_type] + str(distance)
+                additionalHost = "{} ansible_host={} ansible_network_os=ios ansible_user={} ansible_ssh_pass={}".format(name, device_ip, device_username, device_password)
+                if device_type == "[Switch]":
+                    data.insert(invertIndex, additionalHost)
+                elif device_type == "[Router]":
+                    data.append(additionalHost)
+                with open(hosts_inventory, "w") as newhostfile:
+                    for host in data:
+                        newhostfile.write(host + "\n")
+                
+
 
 
 def run_playbook():
@@ -27,9 +69,10 @@ def run_playbook():
 
     pprint(dict(interfaces_data))
 
-
-run_playbook()
-
+while True:
+    update_inventory()
+    run_playbook()
+    time.sleep(15)
 
 # Example Output
 #

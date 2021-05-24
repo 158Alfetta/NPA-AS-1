@@ -1,4 +1,6 @@
 .DS_Store
 /inventory/.DS_Store
 /inventory/artifacts
+env/__pycache__/
+env/secret.py
 NettySight
