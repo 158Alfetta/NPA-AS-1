@@ -16,7 +16,7 @@ body, html{
 
 .device2{
     width: 90%;
-    background-color: hotpink;
+    background-color: #3a416b;
     height: 100%;
     margin: auto;
     margin-top: 20px;
@@ -30,7 +30,7 @@ body, html{
 
 .groupDisplayCard{
     width: 100%;
-    background-color: greenyellow;
+    background-color: rgb(206, 248, 255);
     height: auto;
     padding: 1%;
     margin-bottom: 1%;
