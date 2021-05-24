@@ -1,7 +1,7 @@
 from pprint import pprint
 import ansible_runner
 from collections import defaultdict
-from mongoengine import connect,Document, StringField
+from mongoengine import connect,Document, StringField,EmbeddedDocument,EmbeddedDocumentListField,ObjectIdField
 from secret import *
 import time
 
@@ -12,6 +12,22 @@ class Devices(Document):
     password = StringField()
     ip_address = StringField()
     type = StringField()
+    config_id = StringField()
+    meta = {'strict': False}
+
+class Interface(EmbeddedDocument):
+    name = StringField()
+    ipv4  = StringField()
+    ipv6 = StringField()
+    mode = StringField()
+    vlan = StringField()
+    enabled = StringField()
+    meta = {'strict': False}
+
+class Configdatas(Document):
+    _id = ObjectIdField()
+    hostname = StringField(required=True)
+    interfaces  = EmbeddedDocumentListField(Interface)
     meta = {'strict': False}
 
 def update_inventory():
@@ -67,9 +83,33 @@ def run_playbook():
             except Exception as e:
                 pass
 
-    pprint(dict(interfaces_data))
-
+    # pprint(dict(interfaces_data))
+    for data in interfaces_data :
+        # print(data)
+        interfaces_list = []
+        config_id = ""
+        for inf in interfaces_data[data]:
+            interface_dict = {"name":inf,"ipv4":"-","ipv6":"-","mode":"access","vlan":"1","enabled":"-"}
+            if "ipv4" in  interfaces_data[data][inf]:
+                for i in Devices.objects:
+                    if interfaces_data[data][inf]["ipv4"][0]["address"].split()[0] == i.ip_address:
+                        config_id = i.config_id
+                interface_dict["ipv4"] = interfaces_data[data][inf]["ipv4"][0]["address"]
+            if "ipv6" in  interfaces_data[data][inf]:
+                interface_dict["ipv6"] = interfaces_data[data][inf]["ipv6"][0]["address"]
+            if interfaces_data[data][inf]["enabled"]:
+                interface_dict["enabled"] = "yes"
+            else:
+                interface_dict["enabled"] = "no"
+            if "access" in interfaces_data[data][inf]:
+                interface_dict["vlan"] = str(interfaces_data[data][inf]["access"]["vlan"])
+            elif "trunk" in interfaces_data[data][inf]:
+                if "native_vlan" in interfaces_data[data][inf]["trunk"]:
+                    interface_dict["vlan"] = str(interfaces_data[data][inf]["trunk"]["native_vlan"])
+            interfaces_list.append(interface_dict)
+        Configdatas.objects(_id=config_id).update(hostname=data,interfaces=interfaces_list)
 while True:
+
     update_inventory()
     run_playbook()
     time.sleep(15)
