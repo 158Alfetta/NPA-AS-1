@@ -1,3 +1,10 @@
+.DS_Store
+/inventory/.DS_Store
+/inventory/artifacts
+env/__pycache__/
+env/secret.py
+NettySight
+
 node_modules
 frontend/package-lock.json
 backend/package-lock.json

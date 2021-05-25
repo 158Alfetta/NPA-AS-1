@@ -1,0 +1,77 @@
+{
+    "gathered": {
+        "ansible_facts": {
+            "discovered_interpreter_python": "/usr/bin/python"
+        },
+        "changed": false,
+        "failed": false,
+        "gathered": [
+            {
+                "access": {
+                    "vlan": 100
+                },
+                "name": "GigabitEthernet0/0"
+            },
+            {
+                "name": "GigabitEthernet0/1"
+            },
+            {
+                "name": "GigabitEthernet0/2"
+            },
+            {
+                "name": "GigabitEthernet0/3"
+            },
+            {
+                "name": "GigabitEthernet1/0"
+            },
+            {
+                "name": "GigabitEthernet1/1"
+            },
+            {
+                "name": "GigabitEthernet1/2"
+            },
+            {
+                "name": "GigabitEthernet1/3"
+            },
+            {
+                "name": "GigabitEthernet2/0"
+            },
+            {
+                "name": "GigabitEthernet2/1"
+            },
+            {
+                "name": "GigabitEthernet2/2"
+            },
+            {
+                "name": "GigabitEthernet2/3"
+            },
+            {
+                "access": {
+                    "vlan": 80
+                },
+                "name": "GigabitEthernet3/0"
+            },
+            {
+                "access": {
+                    "vlan": 80
+                },
+                "name": "GigabitEthernet3/1"
+            },
+            {
+                "access": {
+                    "vlan": 80
+                },
+                "name": "GigabitEthernet3/2"
+            },
+            {
+                "access": {
+                    "vlan": 80
+                },
+                "name": "GigabitEthernet3/3"
+            }
+        ],
+        "warnings": [
+            "Platform darwin on host SW1 is using the discovered Python interpreter at /usr/bin/python, but future installation of another Python interpreter could change the meaning of that path. See https://docs.ansible.com/ansible/2.10/reference_appendices/interpreter_discovery.html for more information."
+        ]
+    }
+}

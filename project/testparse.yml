@@ -1,0 +1,13 @@
+- name: Network Getting Start
+  connection: network_cli
+  gather_facts: false
+  hosts: SW1
+  tasks:
+  - name: Gather listed vlans with provided configurations
+    cisco.ios.ios_l2_interfaces:
+      running_config: "{{ lookup('file', 'parse.cfg') }}" 
+      state: parsed
+    register: parsed
+  - name: display the config
+    debug:
+      var: parsed
