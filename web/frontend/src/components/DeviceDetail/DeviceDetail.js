@@ -46,11 +46,11 @@ const DeviceDetail = () => {
             <thead>
               <tr className="text-center">
                 <th>Interface</th>
-                <th>VLAN</th>
-                <th>Enabled</th>
                 <th>Mode</th>
+                <th>VLAN</th>
                 <th>IPv4 Address</th>
                 <th>IPv6 Address</th>
+                <th>Enabled</th>
               </tr>
             </thead>
             <tbody>
@@ -58,11 +58,11 @@ const DeviceDetail = () => {
                return(
                  <tr>
                    <td>{inf?.name}</td>
-                   <td>{inf?.vlan}</td>
-                   <td>{inf?.enabled}</td>
                    <td>{inf?.mode}</td>
+                   <td>{inf?.vlan}</td>
                    <td>{inf?.ipv4}</td>
                    <td>{inf?.ipv6}</td>
+                   <td>{inf?.enabled}</td>
                  </tr>
                )
              })}
