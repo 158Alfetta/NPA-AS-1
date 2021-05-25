@@ -1,5 +1,5 @@
 import "./managegroups.css";
-import { Card, Button, ListGroup, Form } from "react-bootstrap";
+import { Card, Button, ListGroup, Form, Alert } from "react-bootstrap";
 import {useState} from 'react'
 
 const ManageGroups = () => {
@@ -10,7 +10,7 @@ const ManageGroups = () => {
 
   function handleSubmit(event) {
     event.preventDefault()
-    console.log(groupData)
+    console.log(groupData);
   }
 
   function handleChangeName(event) {
