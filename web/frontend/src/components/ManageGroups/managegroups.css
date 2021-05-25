@@ -1,0 +1,31 @@
+.mgnGroup-plane{
+    width: 80vw;
+    margin: auto;
+    height: auto;
+    padding-bottom: 2%;
+    background-color: rgb(231, 255, 248);
+    margin-top: 90px;
+    margin-bottom: 44px;
+    box-shadow: 2px 3px 3px 2px #888888;
+    border-radius: 12px;
+}
+
+.mgnGroup-Name{
+    font-weight: 600;
+    font-size: 1.5rem;
+}
+
+.listofGroup{
+    width: 60%;
+    margin: auto;
+    margin-top: 2%;
+}
+
+.regisGroup{
+    width: 60%;
+    margin: auto;
+    margin-top: 2%;
+    background-color: cornsilk;
+    padding: 2%;
+    align-content: center;
+}
