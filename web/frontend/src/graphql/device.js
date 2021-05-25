@@ -23,16 +23,6 @@ query findManyDevice{
 
 }
 `
-// export const QUERY_DEVICE_WITH_FILTER = gql`
-// query device($groupName: String!){
-//     findManyDevice(filter:{
-//         groupData{
-//             name: $groupName
-//         }
-//     },)
-// }
-// `
-
 export const QUERY_DEVICE_WITH_FILTER = gql`
     query device($group_id: String!){
         findManyDevice(filter: {
