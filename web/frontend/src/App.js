@@ -3,6 +3,7 @@ import { Switch, Route } from "react-router-dom";
 import Layout from "./components/Layout/Layout";
 import React, { Fragment } from 'react';
 
+
 const HomePage = React.lazy(() => import("./pages/HomePage"));
 const DevicesPage = React.lazy(() => import("./pages/DevicesPage"));
 const ManageGroupsPage = React.lazy(() => import("./pages/ManageGroupsPage"));

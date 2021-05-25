@@ -1,8 +1,14 @@
 import "./managegroups.css";
-import { Card, Button, ListGroup, Form, Alert } from "react-bootstrap";
-import {useState} from 'react'
+import { Card, Button, ListGroup, Form} from "react-bootstrap";
+import {useState, useEffect} from 'react'
+import { useQuery, useMutation } from "@apollo/client";
+import { MUTATION_CREATE_GROUP, QUERY_GROUP } from "../../graphql/group";
+
 
 const ManageGroups = () => {
+
+  const [createGroup] = useMutation(MUTATION_CREATE_GROUP);
+  const { data } = useQuery(QUERY_GROUP)
 
   const [groupData, setGroupData] = useState(
     {'name': '', 'desc': ''}
@@ -10,7 +16,11 @@ const ManageGroups = () => {
 
   function handleSubmit(event) {
     event.preventDefault()
-    console.log(groupData);
+    console.log(groupData?.name);
+    createGroup({variables: {
+      name: groupData?.name,
+      group_desc: groupData?.desc
+    }})
   }
 
   function handleChangeName(event) {
@@ -22,6 +32,8 @@ const ManageGroups = () => {
     event.preventDefault()
     setGroupData({...groupData, desc: event.target.value})
   }
+
+
 
 
   return (
@@ -49,9 +61,10 @@ const ManageGroups = () => {
             <b>List of Group(s) in system</b>
           </Card.Header>
           <ListGroup variant="flush">
-            <ListGroup.Item>Cras justo odio</ListGroup.Item>
-            <ListGroup.Item>Dapibus ac facilisis in</ListGroup.Item>
-            <ListGroup.Item>Vestibulum at eros</ListGroup.Item>
+            {data?.listAllGroup.map((group) => <ListGroup.Item key={group?.name}>{group?.name} 
+            <div className="text-muted">
+            {group?.group_desc}
+            </div></ListGroup.Item>)}
           </ListGroup>
         </Card>
       </div>

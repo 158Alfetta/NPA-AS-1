@@ -3,7 +3,13 @@ import ReactDOM from 'react-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { BrowserRouter } from 'react-router-dom'
+import { BrowserRouter } from 'react-router-dom';
+import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
+
+const client = new ApolloClient({
+  uri: 'http://localhost:5001/graphql',
+  cache: new InMemoryCache()
+});
 
 ReactDOM.render(
   <React.StrictMode>
@@ -15,7 +21,9 @@ ReactDOM.render(
             </div>
           }
         >
-      <App />
+        <ApolloProvider client={client}>
+          <App />
+        </ApolloProvider>
       </Suspense>
     </BrowserRouter>
   </React.StrictMode>,

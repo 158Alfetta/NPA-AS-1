@@ -1,19 +1,39 @@
 import "./registerdevice.css";
 import { Card, Button, Form } from "react-bootstrap";
 import {useState} from 'react'
+import { useQuery, useMutation } from "@apollo/client";
+import { QUERY_GROUP } from "../../graphql/group";
+import { MUTATION_CREATE_DEVICE, CREATE_CONFIG_DATA } from "../../graphql/device";
+
+
 const RegisterDevice = () => {
+
+  const [createDevice] = useMutation(MUTATION_CREATE_DEVICE);
+  const { data } = useQuery(QUERY_GROUP);
+  const [createConfig] = useMutation(CREATE_CONFIG_DATA)
 
   const [deviceData, setDeviceData] = useState(
     {'ip_address': '',
     'type': '',
     'group_id': '',
     'username': '',
-    'password': ''}
-  )
+    'password': '',
+    'retrieved': 'False',
+    'config_id': '',
+  })
+
+  async function createConfigToDevice() {
+    let dataCreateConfig = await createConfig()
+    deviceData.config_id = dataCreateConfig?.data?.createConfig?.record?._id;
+    createDevice({variables: {
+      record: deviceData
+    }})
+  }
 
   const handleSubmit = (event) => {
     event.preventDefault()
     console.log(deviceData)
+    createConfigToDevice()
   }
 
   const handleChangeIPA = (e) => setDeviceData({...deviceData, ip_address: e.target.value})
@@ -53,7 +73,7 @@ const RegisterDevice = () => {
               </Form.Label>
               <Form.Control as="select" onChange={handleChangeGroup}>
                 <option value="">- SELECT GROUP -</option>
-                <option value="BRANCH 4">BRANCH 4</option>
+                {data?.listAllGroup.map((group) => <option value={group?._id}>{group?.name}</option>)}
               </Form.Control>
               <Form.Label>
                 <b>SSH Username</b>
