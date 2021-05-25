@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
 import { Card, Col, Row, Table } from "react-bootstrap";
-import { QUERY_DEVICE_BY_ID } from "../../graphql/device";
+import { QUERY_DEVICE_BY_ID} from "../../graphql/device";
 import "./DeviceDetail.css";
 import { useQuery } from "@apollo/client";
 
@@ -9,12 +9,6 @@ const DeviceDetail = () => {
 
   const { data } = useQuery(QUERY_DEVICE_BY_ID, {variables: 
     {_id: deviceId}, });
-
-    const {data: dataDevices} = useQuery(QUERY_DEVICE_WITH_FILTER, {
-      variables: {
-          group_id: props.value
-      }
-  })
 
   let findDeviceById = data?.findDeviceById
 
