@@ -47,7 +47,7 @@ const DeviceDetail = () => {
                 <Col></Col>
               </Row>
               <Row>
-                <Col><Card.Link className="hover-overlay" onClick={() => downloadHandler()}>Download VLAN Config</Card.Link></Col>
+                <Col><a><Card.Link className="hover-overlay" onClick={() => downloadHandler()}>Download VLAN Config</Card.Link></a></Col>
               </Row>
             </Card.Text>
             <Card.Footer
