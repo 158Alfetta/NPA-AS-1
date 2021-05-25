@@ -13,7 +13,24 @@ const DeviceDetail = () => {
   let findDeviceById = data?.findDeviceById
 
   console.log(findDeviceById)
-  
+
+  const downloadHandler = () => {
+    const { parse } = require('json2csv');
+
+    const fields = ['name', 'ipv4', 'ipv6', 'mode', 'vlan', 'enabled'];
+    const opts = { fields };
+
+    try {
+      const FileSaver = require('file-saver');
+      const csv = parse(findDeviceById?.configData?.interfaces, opts);
+      console.log(csv)
+      let fileBlob = new Blob([String(csv)], {type: "text/csv;charset=utf-8"});
+      FileSaver.saveAs(fileBlob, findDeviceById?.configData?.hostname+"_Config.csv");
+      
+    } catch (err) {
+      console.error(err);
+    }
+  }
 
   return (
     <>
@@ -30,7 +47,7 @@ const DeviceDetail = () => {
                 <Col></Col>
               </Row>
               <Row>
-                <Col><Card.Link href="#">Download VLAN Config</Card.Link></Col>
+                <Col><Card.Link className="hover-overlay" onClick={() => downloadHandler()}>Download VLAN Config</Card.Link></Col>
               </Row>
             </Card.Text>
             <Card.Footer
