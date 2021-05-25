@@ -3,6 +3,7 @@ import ansible_runner
 from collections import defaultdict
 from mongoengine import connect,Document, StringField,EmbeddedDocument,EmbeddedDocumentListField,ObjectIdField
 from secret import *
+from excel import *
 import time
 
 
@@ -13,6 +14,7 @@ class Devices(Document):
     ip_address = StringField()
     type = StringField()
     config_id = StringField()
+    group_id = StringField()
     meta = {'strict': False}
 
 class Interface(EmbeddedDocument):
@@ -30,6 +32,87 @@ class Configdatas(Document):
     interfaces  = EmbeddedDocumentListField(Interface)
     meta = {'strict': False}
 
+class Groups(Document):
+    _id = ObjectIdField()
+    name = StringField()
+    meta = {'strict': False}
+
+def findSubnet(address):
+    textone = ""
+    address, mask = address.split()
+    for octet in mask.split("."):
+        textone += bin(int(octet))[2:]
+    
+    address += "/{}".format(textone.count("1"))
+    return address
+
+def gatheringData():
+    groupObj = Groups.objects
+    all_group_data = {}
+    for group in groupObj:
+        groupId = str(group._id).strip("ObjectId(").strip(")")
+        groupName = group.name
+        all_group_data[groupId] = {"name" : groupName, "devices" : {}}
+
+    for id in all_group_data:
+        for dev in Devices.objects(group_id=id):
+            for config in Configdatas.objects(_id=dev.config_id):
+                hostname = config.hostname
+                # print(hostname)
+                for interface in config.interfaces:
+                    int_name = interface.name
+                    int_ipv4 = interface.ipv4
+                    int_ipv6 = interface.ipv6
+                    int_mode = interface.mode
+                    int_vlan = interface.vlan
+                    int_enabled = interface.enabled
+                    # print(int_name, int_ipv4, int_ipv6, int_mode, int_vlan, int_enabled)
+                    int_info = {"int_name" : int_name, "int_ipv4" : int_ipv4, "int_ipv6" : int_ipv6, "int_mode" : int_mode, "int_vlan" : int_vlan, "int_enabled" : int_enabled}
+                    if hostname not in all_group_data[id]["devices"]:
+                        all_group_data[id]["devices"][hostname] = [int_info]
+                    else:
+                        all_group_data[id]["devices"][hostname] += [int_info]
+    
+    return all_group_data
+
+def writeExcel(data):
+    row = 2
+    col = 1
+
+    filename_list = [data[f]["name"] for f in data]
+    for fname in filename_list:
+        excelObj = excelModule(filename=("../results/"+fname+".xlsx"), sheet=0)
+        excelObj.createFile()
+        excelObj.load_workbook()
+        header = ["Host", "Interface Name", "Interface Mode (access by default)", "VLAN (1 by default)", "IPv4", "IPv6", "Enabled ?"]
+        excelObj.writeHeader(header)
+        size = [12, 20, 30, 20, 25, 25, 10]
+        for s in range(len(size)):
+            excelObj.adjust_width(column_number=s+1, width=size[s])
+
+        for site in data:
+            if data[site]["name"] == fname:
+                wr_data = data[site]["devices"]
+                for host in wr_data:
+                    excelObj.writeCell(row=row, column=col, value=host)
+                    excelObj.setBorder(row=row, column=col, style="thin")
+                    excelObj.text_alignment(row=row, column=col, position="center")
+                    col += 1
+                    for interface in wr_data[host]:
+                        for int_info in ["int_name", "int_mode", "int_vlan", "int_ipv4", "int_ipv6", "int_enabled"]:
+                            if int_info == "int_ipv4" and interface[int_info] != "-":
+                                interface[int_info] = findSubnet(interface[int_info])
+                            excelObj.writeCell(row=row, column=col, value=interface[int_info])
+                            excelObj.setBorder(row=row, column=col, style="thin")
+                            excelObj.text_alignment(row=row, column=col, position="center")
+                            col += 1
+                        col = 2
+                        row += 1
+                    col = 1
+        excelObj.saveFile()
+        row = 2
+        col = 1
+
 def update_inventory():
     hosts_inventory = "../inventory/hosts"
 
@@ -38,7 +121,7 @@ def update_inventory():
         device_username = config.username
         device_password = config.password
         device_type = "[{}]".format(config.type)
-        nameDict = {"[Switch]" : "SW", "[Router]" : "R"}
+        prefixName = {"[Switch]" : "SW", "[Router]" : "R"}
 
         with open(hosts_inventory, "r") as hostfile:
             data = hostfile.read()
@@ -48,7 +131,7 @@ def update_inventory():
                 typeIndex = data.index(device_type)
                 invertIndex = data.index(invert[device_type])
                 distance = max(typeIndex, invertIndex) - min(typeIndex, invertIndex) + (device_type == "[Router]")
-                name = nameDict[device_type] + str(distance)
+                name = prefixName[device_type] + str(distance)
                 additionalHost = "{} ansible_host={} ansible_network_os=ios ansible_user={} ansible_ssh_pass={}".format(name, device_ip, device_username, device_password)
                 if device_type == "[Switch]":
                     data.insert(invertIndex, additionalHost)
@@ -57,9 +140,6 @@ def update_inventory():
                 with open(hosts_inventory, "w") as newhostfile:
                     for host in data:
                         newhostfile.write(host + "\n")
-                
-
-
 
 def run_playbook():
     l3_info = ansible_runner.interface.run(private_data_dir="../inventory", playbook="../project/collect_l3_interfaces.yml", inventory="../inventory/hosts", quiet=True)
@@ -84,34 +164,45 @@ def run_playbook():
                 pass
 
     # pprint(dict(interfaces_data))
-    for data in interfaces_data :
-        # print(data)
+    
+    # Normalized Data before push to database
+    for host in interfaces_data:
+        # print(host)
         interfaces_list = []
-        config_id = ""
-        for inf in interfaces_data[data]:
-            interface_dict = {"name":inf,"ipv4":"-","ipv6":"-","mode":"access","vlan":"1","enabled":"-"}
-            if "ipv4" in  interfaces_data[data][inf]:
-                for i in Devices.objects:
-                    if interfaces_data[data][inf]["ipv4"][0]["address"].split()[0] == i.ip_address:
-                        config_id = i.config_id
-                interface_dict["ipv4"] = interfaces_data[data][inf]["ipv4"][0]["address"]
-            if "ipv6" in  interfaces_data[data][inf]:
-                interface_dict["ipv6"] = interfaces_data[data][inf]["ipv6"][0]["address"]
-            if interfaces_data[data][inf]["enabled"]:
+        for inf in interfaces_data[host]:
+            interface_dict = {"name" : inf, "ipv4" : "-", "ipv6" : "-", "mode" : "access", "vlan" : "1", "enabled" : "-"}
+            if "ipv4" in  interfaces_data[host][inf]:
+                for device in Devices.objects:
+                    if interfaces_data[host][inf]["ipv4"][0]["address"].split()[0] == device.ip_address:
+                        config_id = device.config_id
+                        break
+                interface_dict["ipv4"] = interfaces_data[host][inf]["ipv4"][0]["address"]
+            if "ipv6" in  interfaces_data[host][inf]:
+                interface_dict["ipv6"] = interfaces_data[host][inf]["ipv6"][0]["address"]
+            if interfaces_data[host][inf]["enabled"]:
                 interface_dict["enabled"] = "yes"
             else:
                 interface_dict["enabled"] = "no"
-            if "access" in interfaces_data[data][inf]:
-                interface_dict["vlan"] = str(interfaces_data[data][inf]["access"]["vlan"])
-            elif "trunk" in interfaces_data[data][inf]:
-                if "native_vlan" in interfaces_data[data][inf]["trunk"]:
-                    interface_dict["vlan"] = str(interfaces_data[data][inf]["trunk"]["native_vlan"])
+            if "access" in interfaces_data[host][inf]:
+                interface_dict["vlan"] = str(interfaces_data[host][inf]["access"]["vlan"])
+            elif "trunk" in interfaces_data[host][inf]:
+                interface_dict["mode"] = "trunk"
+                if "native_vlan" in interfaces_data[host][inf]["trunk"]:
+                    interface_dict["vlan"] = str(interfaces_data[host][inf]["trunk"]["native_vlan"])
             interfaces_list.append(interface_dict)
-        Configdatas.objects(_id=config_id).update(hostname=data,interfaces=interfaces_list)
-while True:
+        # print(interfaces_list)
+        Configdatas.objects(_id=config_id).update(hostname=host, interfaces=interfaces_list)
 
+
+while True:
+    # Update inventory file (hosts) and get device information along with push it into the database
     update_inventory()
     run_playbook()
+
+    # pull data from the database and record to excel file
+    excelData = gatheringData()
+    writeExcel(excelData)
+    print("\n---Go to sleep---\n")
     time.sleep(15)
 
 # Example Output
