@@ -3,10 +3,12 @@ import { Switch, Route } from "react-router-dom";
 import Layout from "./components/Layout/Layout";
 import React, { Fragment } from 'react';
 
+
 const HomePage = React.lazy(() => import("./pages/HomePage"));
 const DevicesPage = React.lazy(() => import("./pages/DevicesPage"));
 const ManageGroupsPage = React.lazy(() => import("./pages/ManageGroupsPage"));
 const RegisterDevicePage = React.lazy(() => import("./pages/RegisterDevicePage"));
+const DeviceDetailPage = React.lazy(() => import("./pages/DeviceDetailPage"));
 
 function App() {
   return (
@@ -16,6 +18,9 @@ function App() {
         <Switch>
             <Route exact path="/">
               <HomePage />
+            </Route>
+            <Route path="/devices/:deviceId">
+              <DeviceDetailPage />
             </Route>
             <Route path="/devices">
               <DevicesPage />

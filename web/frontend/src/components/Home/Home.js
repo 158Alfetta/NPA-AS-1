@@ -1,7 +1,11 @@
 import "./home.css";
 import "./home2.css";
+import { useHistory } from "react-router-dom";
 
 const Home = () => {
+
+  let history = useHistory();
+
   return (
     <>
       <div className="App">
@@ -15,8 +19,9 @@ const Home = () => {
               <div className="intro-lead-in">Manage your configuration data at once</div>
               <div
                 className="btn btn-primary btn-xl text-uppercase js-scroll-trigger"
+                onClick={() => history.push("devices/")}
               >
-                Explore
+                Launch App
               </div>
             </div>
           </div>
@@ -28,7 +33,7 @@ const Home = () => {
               <div className="col-lg-12 text-center">
                 <h2 className="section-heading text-uppercase">Services</h2>
                 <h3 className="section-subheading text-muted">
-                  Lorem ipsum dolor sit amet consectetur.
+                  We create a simply and manageable tools of your configuration data for the propose of migration.
                 </h3>
               </div>
             </div>
@@ -38,11 +43,9 @@ const Home = () => {
                   <i className="fa fa-circle fa-stack-2x text-primary"></i>
                   <i className="fa fa-shopping-cart fa-stack-1x fa-inverse"></i>
                 </span>
-                <h4 className="service-heading">E-Commerce</h4>
+                <h4 className="service-heading">Decrease Error on Task</h4>
                 <p className="text-muted">
-                  Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                  Minima maxime quam architecto quo inventore harum ex magni,
-                  dicta impedit.
+                User error in the migration process, some configuration of the old system may be missing from open configuration data in .txt files.
                 </p>
               </div>
               <div className="col-md-4">
@@ -50,11 +53,9 @@ const Home = () => {
                   <i className="fa fa-circle fa-stack-2x text-primary"></i>
                   <i className="fa fa-laptop fa-stack-1x fa-inverse"></i>
                 </span>
-                <h4 className="service-heading">Responsive Design</h4>
+                <h4 className="service-heading">Mobile Device Accessible</h4>
                 <p className="text-muted">
-                  Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                  Minima maxime quam architecto quo inventore harum ex magni,
-                  dicta impedit.
+                  Everytime and everywhere on your devices, A text file of configuration is obviously hard to read on mobile devices.
                 </p>
               </div>
               <div className="col-md-4">
@@ -62,11 +63,9 @@ const Home = () => {
                   <i className="fa fa-circle fa-stack-2x text-primary"></i>
                   <i className="fa fa-lock fa-stack-1x fa-inverse"></i>
                 </span>
-                <h4 className="service-heading">Web Security</h4>
+                <h4 className="service-heading">Ready to Use Report</h4>
                 <p className="text-muted">
-                  Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                  Minima maxime quam architecto quo inventore harum ex magni,
-                  dicta impedit.
+                Provide a ready to use report for engineers, decrease time for preparation in migration processes.
                 </p>
               </div>
             </div>
