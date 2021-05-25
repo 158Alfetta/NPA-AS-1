@@ -5,7 +5,9 @@ const { Schema } = mongoose
 
 const interfaceSchema = new Schema({
     name: {type: String},
-    ip_address: {type: String},
+    ipv4: {type: String},
+    ipv6: {type: String},
+    mode: {type: String},
     vlan: {type: String},
     enabled: {type: String},
   })
