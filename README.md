@@ -14,8 +14,8 @@ Log of old device is important for migration network system, site engineer use l
 - Use Ansible for the ability to work with existing network devices.
 
 ## <em>Our Goal</em>
-- To decrease user error in the migration process, some configuration of the old system may be missing from open configuration data in .txt files
-- To improve time consume for troubleshooting process by having configuration backup and formattrated for ready to read pattern.
-- To create a mobile device accessible. A text file of configuration is obviously hard to read on mobile devices.
-- To establish ability for managing reports and configuration data, users can group their device by a parameter such as Region and Province. Likewise, if it has 10 or more devices in the network, users can access the running configuration data of every device through a webpage.
-- To serve a ready to use report for engineers, decrease time for preparation in migration processes.
+- Decrease user error in the migration process, some configuration of the old system may be missing from open configuration data in .txt files
+- Improve time consume for troubleshooting process by having configuration backup and formattrated for ready to read pattern.
+- Create a mobile device accessible. A text file of configuration is obviously hard to read on mobile devices.
+- Establish ability for managing reports and configuration data, users can group their device by a parameter such as Region and Province. Likewise, if it has 10 or more devices in the network, users can access the running configuration data of every device through a webpage.
+- Serve a ready to use report for engineers, decrease time for preparation in migration processes.
